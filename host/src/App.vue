@@ -8,10 +8,28 @@
 </template>
 
 <script>
+import Loading from './components/Loading.vue'
+import Error from './components/Error.vue'
+
+function defineFederatedComponent(loader) {
+  return () => ({
+    component: loader(),
+    loading: Loading,
+    error: Error,
+    timeout: 1000,
+  })
+}
+
 export default {
   name: 'App',
   components: {
-    HelloWorld: () => import('library1/HelloWorld'),
+    HelloWorld: defineFederatedComponent(() => import('library1/HelloWorld')),
+    // HelloWorld: () => ({
+    //   component: import('library1/HelloWorld'),
+    //   loading: Loading,
+    //   error: Error,
+    //   timeout: 1000,
+    // })
   },
   data() {
     return {
